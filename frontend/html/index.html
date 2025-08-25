@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Car List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../components/header.css" />
+  <link rel="stylesheet" href="../css/index.css" />
+</head>
+<body>
+
+  <header id="topbar-container"></header>
+
+  <main class="main-container">
+    <div class="page-header">
+      <h1>Available Cars for Sale</h1>
+    </div>
+
+    <div class="filter-sort-bar">
+      <div class="filter-group">
+        <label for="brand-filter">Brand:</label>
+        <select id="brand-filter">
+          <option value="all">All Brands</option>
+        </select>
+      </div>
+      <div class="sort-group">
+        <label for="sort-by">Sort by:</label>
+        <select id="sort-by">
+          <option value="listDate-desc">Newest Listings</option>
+          <option value="price-asc">Price: Descending</option>
+          <option value="price-desc">Price: Ascending</option>
+          <option value="km-asc">KM: Ascending</option>
+          <option value="km-desc">KM: Descending</option>
+          <option value="year-desc">Year: Descending</option>
+          <option value="year-asc">Year: Ascending</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="table-container" class="table-container">
+      <div class="loader"></div>
+    </div>
+
+    <div id="pagination-container"></div>
+  </main>
+
+  <script type="module" src="../js/index.js"></script>
+  <script type="module" src="../components/header.js"></script>
+</body>
+</html>

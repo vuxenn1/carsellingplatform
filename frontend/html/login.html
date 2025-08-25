@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../components/header.css" />
+  <link rel="stylesheet" href="../css/form-pages.css" />
+</head>
+<body>
+  <header id="topbar-container"></header>
+
+  <main class="main-container">
+    <div class="form-box">
+      <div class="page-header">
+        <h1>Login to Your Account</h1>
+      </div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" required />
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" required />
+        </div>
+        <button id="submitBtn" type="submit" class="button button-primary">Login</button>
+      </form>
+
+      <div class="form-footer">
+        <span>Don't have an account?</span>
+        <a href="register.html">Register here</a>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../js/login.js"></script>
+  <script type="module" src="../components/header.js"></script>
+</body>
+</html>

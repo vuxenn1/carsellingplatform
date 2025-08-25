@@ -1,0 +1,53 @@
+# --- OS junk ---
+.DS_Store
+Thumbs.db
+
+# --- Git ---
+*.orig
+
+# --- VS/ .NET ---
+.vs/
+*.user
+*.suo
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Tt]est[Rr]esult*/
+*.nupkg
+project.lock.json
+*.PublishSettings
+*.pubxml
+*.pfx
+*.snk
+
+# --- .NET config (protect secrets) ---
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# --- Node / Frontend ---
+node_modules/
+dist/
+build/
+.cache/
+coverage/
+.vite/
+.next/
+out/
+*.log
+*.map
+
+# --- Env files (never commit real secrets) ---
+.env
+.env.local
+.env.*.local
+
+# --- Certificates/keys ---
+*.key
+*.cer
+*.pem
+
+# --- Tools ---
+.idea/
+.vscode/*
+!.vscode/extensions.json

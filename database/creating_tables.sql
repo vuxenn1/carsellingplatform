@@ -1,0 +1,296 @@
+-- USERS TABLE
+CREATE TABLE CDB_REGISTEREDUSER
+(
+    userId          NUMBER PRIMARY KEY,
+    username_cd     VARCHAR2(20)  NOT NULL UNIQUE,
+    password_cd     VARCHAR2(4000) NOT NULL,
+    mail_cd         VARCHAR2(100) NOT NULL UNIQUE,
+    phone_cd        VARCHAR2(50)  NOT NULL UNIQUE,
+    userLocation_cd VARCHAR2(100) NOT NULL, -- City, Country
+    admin_ind       NUMBER(1) DEFAULT 0 NOT NULL CHECK (admin_ind IN (0, 1)),
+    record_tm       TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
+    userStatus_ind  NUMBER(1) DEFAULT 1 NOT NULL CHECK (userStatus_ind IN (0, 1))
+);
+/
+
+CREATE SEQUENCE CDB_REGISTEREDUSER_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_REGISTEREDUSER_INS_TRG
+BEFORE INSERT ON CDB_REGISTEREDUSER
+FOR EACH ROW
+BEGIN
+    IF :NEW.userId IS NULL THEN
+        :NEW.userId := CDB_REGISTEREDUSER_SEQ.NEXTVAL;
+    END IF;
+END;
+/
+
+-- LOG TABLE FOR USERS
+
+CREATE TABLE CDB_REGISTEREDUSERLOG
+(
+    logId           NUMBER PRIMARY KEY,
+    userId         NUMBER NOT NULL,
+    action_type     VARCHAR2(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    action_tm       TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE CDB_REGISTEREDUSERLOG_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_REGISTEREDUSERLOG_INS_UPD_TRG
+AFTER INSERT OR UPDATE OR DELETE ON CDB_REGISTEREDUSER
+FOR EACH ROW
+DECLARE
+    p_userId     NUMBER;
+    p_actionType VARCHAR2(10);
+BEGIN
+    IF INSERTING THEN
+        p_userId := :NEW.userId;
+        p_actionType := 'INSERT';
+    ELSIF UPDATING THEN
+        p_userId := :NEW.userId;
+        p_actionType := 'UPDATE';
+    ELSIF DELETING THEN
+        p_userId := :OLD.userId;
+        p_actionType := 'DELETE';
+    END IF;
+
+    INSERT INTO CDB_REGISTEREDUSERLOG (
+        logId, userId, action_type, action_tm
+    ) VALUES (
+        CDB_REGISTEREDUSERLOG_SEQ.NEXTVAL,
+        p_userId,
+        p_actionType,
+        SYSTIMESTAMP
+    );
+END;
+/
+
+ALTER TABLE CDB_REGISTEREDUSERLOG ADD actionDetails_cd VARCHAR2(4000);
+/
+
+--==========================================================================================
+
+-- CARS TABLE
+
+CREATE TABLE CDB_LISTEDCAR
+(
+    carId            NUMBER PRIMARY KEY,
+    ownerId          NUMBER NOT NULL,
+    brand_cd         VARCHAR2(50) NOT NULL,
+    model_cd         VARCHAR2(50) NOT NULL,
+    year_num         NUMBER(4) NOT NULL,
+    km_num           NUMBER(8),
+    fuelType_cd      VARCHAR2(20),
+    transmission_cd  VARCHAR2(20),
+    price_num        NUMBER NOT NULL,
+    description_cd   VARCHAR2(4000),
+    record_tm        TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
+    carStatus_ind    VARCHAR2(20) DEFAULT 'available' NOT NULL, -- available and sold -- sold is inactive
+
+    CONSTRAINT fk_car_owner FOREIGN KEY (ownerId) REFERENCES CDB_REGISTEREDUSER(userId)
+);
+
+CREATE SEQUENCE CDB_LISTEDCAR_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_LISTEDCAR_INS_TRG
+BEFORE INSERT ON CDB_LISTEDCAR
+FOR EACH ROW
+BEGIN
+    IF :NEW.carId IS NULL THEN
+        :NEW.carId := CDB_LISTEDCAR_SEQ.NEXTVAL;
+    END IF;
+END;
+/
+
+-- LOG TABLE FOR CARS
+
+CREATE TABLE CDB_LISTEDCARLOG
+(
+    logId       NUMBER PRIMARY KEY,
+    carId       NUMBER NOT NULL,
+    action_type VARCHAR2(10) NOT NULL, -- 'INSERT', 'UPDATE', 'DELETE'
+    action_tm   TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE CDB_LISTEDCARLOG_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_LISTEDCARLOG_INS_UPD_TRG
+AFTER INSERT OR UPDATE OR DELETE ON CDB_LISTEDCAR
+FOR EACH ROW
+DECLARE
+    p_carId      NUMBER;
+    p_actionType VARCHAR2(10);
+BEGIN
+    IF INSERTING THEN
+        p_carId := :NEW.carId;
+        p_actionType := 'INSERT';
+    ELSIF UPDATING THEN
+        p_carId := :NEW.carId;
+        p_actionType := 'UPDATE';
+    ELSIF DELETING THEN
+        p_carId := :OLD.carId;
+        p_actionType := 'DELETE';
+    END IF;
+
+    INSERT INTO CDB_LISTEDCARLOG (
+        logId, carId, action_type, action_tm
+    ) VALUES (
+        CDB_LISTEDCARLOG_SEQ.NEXTVAL,
+        p_carId,
+        p_actionType,
+        SYSTIMESTAMP
+    );
+END;
+/
+
+ALTER TABLE CDB_LISTEDCARLOG ADD actionDetails_cd VARCHAR2(4000);
+/
+
+--==========================================================================================
+
+-- IMAGES TABLE
+DROP TRIGGER CDB_CARIMAGE_INS_TRG;
+DROP SEQUENCE CDB_CARIMAGE_SEQ;
+DROP TABLE CDB_CARIMAGE;
+
+CREATE TABLE CDB_CARIMAGE
+(
+    imageId       NUMBER PRIMARY KEY,
+    imageUrl_cd   VARCHAR2(4000) NOT NULL,
+    car_id        NUMBER NOT NULL,
+    altText_cd    VARCHAR2(255),
+    upload_tm     TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
+
+    CONSTRAINT fk_carimage_car FOREIGN KEY (car_id) REFERENCES CDB_LISTEDCAR(carId) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE CDB_CARIMAGE_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_CARIMAGE_INS_TRG
+BEFORE INSERT ON CDB_CARIMAGE
+FOR EACH ROW
+BEGIN
+    IF :NEW.imageId IS NULL THEN
+        :NEW.imageId := CDB_CARIMAGE_SEQ.NEXTVAL;
+    END IF;
+END;
+/
+--==========================================================================================
+
+-- FAVORITES TABLE
+
+CREATE TABLE CDB_USERFAVORITE
+(
+    favId     NUMBER PRIMARY KEY,
+    user_id   NUMBER NOT NULL,
+    car_id    NUMBER NOT NULL,
+    add_tm    TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
+
+    CONSTRAINT fk_favorites_user FOREIGN KEY (user_id) REFERENCES CDB_REGISTEREDUSER(userId) ON DELETE CASCADE,
+    CONSTRAINT fk_favorites_car  FOREIGN KEY (car_id)  REFERENCES CDB_LISTEDCAR(carId) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE CDB_USERFAVORITE_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_USERFAVORITE_INS_TRG
+BEFORE INSERT ON CDB_USERFAVORITE
+FOR EACH ROW
+BEGIN
+    IF :NEW.favId IS NULL THEN
+        :NEW.favId := CDB_USERFAVORITE_SEQ.NEXTVAL;
+    END IF;
+END;
+/
+
+-- OFFERS TABLE
+
+CREATE TABLE CDB_OFFER
+(
+    offerId           NUMBER PRIMARY KEY,
+    car_id            NUMBER NOT NULL,
+    offer_sender_id   NUMBER NOT NULL,
+    offer_receiver_id NUMBER NOT NULL,
+    offer_price       NUMBER NOT NULL,
+    offer_tm          TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,
+    offerStatus_ind   VARCHAR2(20) DEFAULT 'pending' NOT NULL,  -- pending, accepted, rejected
+
+    CONSTRAINT fk_offer_car      FOREIGN KEY (car_id)            REFERENCES CDB_LISTEDCAR(carId),
+    CONSTRAINT fk_offer_sender   FOREIGN KEY (offer_sender_id)   REFERENCES CDB_REGISTEREDUSER(userId),
+    CONSTRAINT fk_offer_receiver FOREIGN KEY (offer_receiver_id) REFERENCES CDB_REGISTEREDUSER(userId)
+);
+
+CREATE SEQUENCE CDB_OFFER_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_OFFER_INS_TRG
+BEFORE INSERT ON CDB_OFFER
+FOR EACH ROW
+BEGIN
+    IF :NEW.offerId IS NULL THEN
+        :NEW.offerId := CDB_OFFER_SEQ.NEXTVAL;
+    END IF;
+END;
+/
+
+-- LOG TABLE FOR OFFERS
+CREATE TABLE CDB_OFFERLOG
+(
+    logId      NUMBER PRIMARY KEY,
+    offerId     NUMBER NOT NULL,
+    action_type VARCHAR2(10) NOT NULL,
+    action_tm   TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE CDB_OFFERLOG_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_OFFERLOG_INS_UPD_TRG
+AFTER INSERT OR UPDATE OR DELETE ON CDB_OFFER
+FOR EACH ROW
+DECLARE
+    p_offerId     NUMBER;
+    p_actionType  VARCHAR2(10);
+BEGIN
+    IF INSERTING THEN
+        p_offerId := :NEW.offerId;
+        p_actionType := 'INSERT';
+    ELSIF UPDATING THEN
+        p_offerId := :NEW.offerId;
+        p_actionType := 'UPDATE';
+    ELSIF DELETING THEN
+        p_offerId := :OLD.offerId;
+        p_actionType := 'DELETE';
+    END IF;
+
+    INSERT INTO CDB_OFFERLOG (
+        logId, offerId, action_type, action_tm
+    ) VALUES (
+        CDB_OFFERLOG_SEQ.NEXTVAL,
+        p_offerId,
+        p_actionType,
+        SYSTIMESTAMP
+    );
+END;
+/
+
+ALTER TABLE CDB_OFFERLOG ADD actionDetails_cd VARCHAR2(4000);
+/
+
+--==========================================================================================
+
+CREATE TABLE CDB_NOTIFICATION (
+    ntfId NUMBER PRIMARY KEY,
+    messageText_cd VARCHAR2(4000) NOT NULL,
+    receiverId NUMBER NOT NULL,
+    read_ind NUMBER(1) DEFAULT 0 NOT NULL CHECK (read_ind IN (0, 1)),
+    sentTime_tm TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL
+);
+
+CREATE SEQUENCE CDB_NOTIFICATION_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+CREATE OR REPLACE TRIGGER CDB_NOFICATION_INS_TRG
+BEFORE INSERT ON CDB_NOTIFICATION
+FOR EACH ROW
+BEGIN
+    SELECT CDB_NOTIFICATION_SEQ.NEXTVAL INTO :NEW.ntfId FROM dual;
+END;
+/

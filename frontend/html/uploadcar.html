@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>List Your Car</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../components/header.css" />
+  <link rel="stylesheet" href="../css/uploadcar.css" />
+</head>
+<body>
+  <header id="topbar-container"></header>
+
+  <main class="upload-page">
+    <div class="upload-box">
+      <div class="upload-header">
+        <h2>List Your Car</h2>
+        <p>Fill in the details below to put your car up for sale.</p>
+      </div>
+
+      <form id="uploadCarForm" novalidate>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="brand">Brand</label>
+            <input type="text" id="brand" placeholder="Brand" required />
+          </div>
+          <div class="form-group">
+            <label for="model">Model</label>
+            <input type="text" id="model" placeholder="Model" required />
+          </div>
+          <div class="form-group">
+            <label for="year">Year</label>
+            <input type="number" id="year" placeholder="Year" min="1950" max="2100" required />
+          </div>
+          <div class="form-group">
+            <label for="km">Kilometers</label>
+            <input type="number" id="km" placeholder="Kilometers" min="0" required />
+          </div>
+        </div>
+
+        <div class="form-grid">
+            <div class="form-group">
+              <label for="fuelType">Fuel Type</label>
+              <select id="fuelType" required>
+                <option value="" disabled selected>Select Fuel Type</option>
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Electric">Electric</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="transmission">Transmission</label>
+              <select id="transmission" required>
+                <option value="" disabled selected>Select Transmission</option>y
+                <option value="Manual">Manual</option>
+                <option value="Automatic">Automatic</option>
+              </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price (TL)</label>
+            <input type="number" id="price" placeholder="Price (TL)" min="0" required />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" rows="4" placeholder="(Optional) Add any extra details about your car..."></textarea>
+        </div>
+
+        <button id="submitBtn" type="submit">List Car</button>
+      </form>
+    </div>
+  </main>
+
+  <script type="module" src="../js/uploadcar.js"></script>
+  <script type="module" src="../components/header.js"></script>
+</body>
+</html>

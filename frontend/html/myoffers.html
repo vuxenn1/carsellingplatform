@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Offers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../components/header.css" />
+  <link rel="stylesheet" href="../css/myoffers.css" />
+</head>
+<body>
+  <header id="topbar-container"></header>
+
+  <main class="main-container">
+    <div class="page-header">
+      <h1>My Offers</h1>
+      <p>Manage offers you've sent and received.</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-button active" data-tab="sent">Sent Offers</button>
+      <button class="tab-button" data-tab="received">Received Offers</button>
+    </div>
+
+    <div id="sent" class="tab-content active">
+      <div id="sent-container" class="table-container">
+        <div class="loader"></div>
+      </div>
+    </div>
+
+    <div id="received" class="tab-content">
+      <div id="received-container" class="table-container">
+        <div class="loader"></div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module" src="../components/header.js"></script>
+  <script type="module" src="../js/myoffers.js"></script>
+</body>
+</html>

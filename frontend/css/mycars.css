@@ -1,0 +1,82 @@
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.available {
+  color: #166534;
+  background-color: #dcfce7;
+}
+
+.status-badge.sold {
+  color: #7e22ce;
+  background-color: #f3e8ff;
+}
+
+.actions-cell {
+  text-align: right;
+}
+
+.toggle-status-btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background-color: #ffffff;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.toggle-status-btn:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.toggle-status-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.filter-sort-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #e5e7eb;
+}
+
+.filter-group, .sort-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-sort-bar select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.sort-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+}

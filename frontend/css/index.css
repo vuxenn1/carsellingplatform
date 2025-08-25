@@ -1,0 +1,210 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background-color: #f7f8fc;
+  color: #1f2937;
+  margin: 0;
+}
+
+.main-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.page-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+
+.filter-sort-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #e5e7eb;
+}
+
+.filter-group, .sort-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filter-sort-bar label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.filter-sort-bar select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.table-container {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+thead th {
+  background-color: #f9fafb;
+  padding: 16px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr {
+  transition: background-color 0.2s ease-out;
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+tbody tr:not(:last-child) {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+td {
+  padding: 16px 20px;
+  vertical-align: middle;
+}
+
+td img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.car-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 15px;
+}
+
+.car-model {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.car-price {
+  font-weight: 600;
+  font-size: 16px;
+  color: #3b82f6;
+}
+
+th.align-right, td.align-right {
+  text-align: right;
+}
+
+th.align-center, td.align-center {
+  text-align: center;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    margin-top: 24px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.pagination-controls button {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    cursor: pointer;
+    margin: 0 4px;
+}
+
+.pagination-controls button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.page-info {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.page-size-selector label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+    margin-right: 8px;
+}
+
+.page-size-selector select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    cursor: pointer;
+}
+
+.status-message {
+  text-align: center;
+  font-size: 18px;
+  color: #6b7280;
+  padding: 80px 40px;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #d1d5db;
+  border-bottom-color: #3b82f6;
+  border-radius: 50%;
+  display: block;
+  margin: 80px auto;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../components/header.css" />
+  <link rel="stylesheet" href="../css/adminpanel.css" />
+</head>
+<body>
+  <header id="topbar-container"></header>
+
+  <main class="main-container">
+    <div class="page-header">
+      <h1>Admin Panel</h1>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="users-tab">Users</button>
+      <button class="tab-btn" data-tab="cars-tab">Cars</button>
+    </div>
+
+    <section id="users-tab" class="tab-panel active">
+      <div class="table-container" id="users-table-container">
+        <div class="loader"></div>
+      </div>
+    </section>
+
+    <section id="cars-tab" class="tab-panel">
+      <div class="table-container" id="cars-table-container">
+        <div class="loader"></div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="../components/header.js"></script>
+  <script type="module" src="../js/adminpanel.js"></script>
+</body>
+</html>

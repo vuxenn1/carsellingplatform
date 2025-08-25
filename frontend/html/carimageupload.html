@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Car Images</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../components/header.css" />
+  <link rel="stylesheet" href="../css/carimageupload.css" />
+</head>
+<body>
+  <header id="topbar-container"></header>
+  <main class="upload-page">
+    <div class="upload-box">
+      <div class="upload-header">
+        <h2>Upload Images</h2>
+      </div>
+
+      <form id="imageUploadForm" novalidate>
+        <div class="form-group">
+          <label for="carId">Select one of your cars</label>
+          <select id="carId" required disabled>
+            <option>Loading your cars...</option>
+          </select>
+        </div>
+
+        <div id="imageFieldsContainer"></div>
+
+        <div class="button-group">
+            <button type="button" id="addImageBtn">+ Add Another Image</button>
+            <button type="submit" id="submitBtn">Upload Images</button>
+        </div>
+      </form>
+    </div>
+  </main>
+  
+  <script type="module" src="../js/carimageupload.js"></script>
+  <script type="module" src="../components/header.js"></script>
+</body>
+</html>
